@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="member">
+
+	<select id="selectAll" resultType="member.DTO.MemDto">
+		select * from member
+	</select>
+	
+	<select id="selectOne" parameterType="string" resultType="member.DTO.MemDto">
+		select * from member where id = #{id}
+	</select>
+	
+	<select id="search" parameterType="string" resultType="member.DTO.MemDto">
+		select * from member where id like '%'||#{id}||'%'
+	</select>
+	
+	<select id="whereIn" resultType="member.DTO.MemDto">
+		select * from member where id in
+		<foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</select>
+	
+	<insert id="insert" parameterType="member.DTO.MemDto">
+		insert into member (name, id, pw) values (#{name}, #{id}, #{pw})
+	</insert>
+	
+	<delete id="delete" parameterType="string">
+		delete from member where id = #{id}
+	</delete>
+	
+	<update id="updatePw1" parameterType="member.DTO.MemDto">
+		update member set pw = #{pw} where id = #{id}
+	</update>
+	
+	<update id="updatePw2" parameterType="map">
+		update member set pw = #{pw} where id = #{id}
+	</update>
+	
+</mapper>
